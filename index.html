@@ -1,77 +1,55 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Smart-Grocery</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-<link rel="stylesheet" href="css/stylesheet.css" type="text/css" />
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Smart-Grocery</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/stylesheet.css" type="text/css" />
+    </head>
 
-</head>
-<body>
-<ul>
+    <body>
+     <div class="container-fluid">
+      <header style="margin-top:150px;"> <img src="img/shopping_cart_racing.png" alt="Sale" class="sale"/>
+        <h1>Shopping List</h1>
+      </header>
 
-</ul>
+      <div class="input">
+        <h3>Enter Item:</h3>
+        <input type="text" class="custinput" id="item-input" placeholder="Enter shopping item..." autofocus>
+        <button type="submit" class="btn">add</button>
+      </div>
 
+    <div class="list">
+      <h3>List:</h3>
+      <table class="items">
+        <thead>
+          <tr>
+            <th class="edit" colspan="3"><span>edit</span></th>
+          </tr>
+        </thead>
+      </table>
+    </div>
 
-</div>
-</div class="container-fluid">
-<header style="margin-top:150px;"> <img src="img/shopping_cart_racing.png" alt="Sale" class="sale"/>
-<h1>Shopping List</h1>
-</header>
-<div class="input">
-<h3>Enter Item:</h3>
-<input type="text" class="custinput" id="item-input" placeholder="Enter shopping item..." autofocus>
-<button type="submit" class="btn">add</button>
-</div>
-<div class="list">
-<h3>List:</h3>
-<table class="items">
-<thead>
-<tr>
-<th class="edit" colspan="3"><span>edit</span></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-
-<!-- Login Form -->
-<div class="container">
-  <div class="login-container">
-            <div id="output"></div>
-            <div class="avatar"></div>
-            <div class="form-box">
-                <form action="" method="">
-                    <input name="user" type="text" placeholder="username">
-                    <input type="password" placeholder="password">
-                    <button class="btn btn-info btn-block login" type="submit">Login</button>
-                </form>
-            </div>
+  <!-- Login Form -->
+     <div class="container">
+        <div class="login-container">
+          <div id="output"></div>
+          <div class="avatar"></div>
+          <div class="form-box">
+            <form action="" method="">
+              <input name="user" type="text" placeholder="username">
+              <input type="password" placeholder="password">
+              <button class="btn btn-info btn-block login" type="submit">Login</button>
+            </form>
+          </div>
         </div>
+      </div>
+  <!-- Login Form End -->
 
-</div>
-<!-- Login Form End -->
+  </div>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="js/main.js"></script>
 
 
-</div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="js/main.js"></script>
-
-<!---
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-36251023-1']);
-  _gaq.push(['_setDomainName', 'jqueryscript.net']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script> -->
-
-</body>
+  </body>
 </html>

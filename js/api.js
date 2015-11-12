@@ -1,4 +1,7 @@
 'use strict';
+
+var token = null;
+
 var smart_grocery = {
     url: 'http://localhost:3000',
 

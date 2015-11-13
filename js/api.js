@@ -91,41 +91,60 @@ var smart_grocery = {
         }, callback);
     },
 
+    destroyProfile: function destroyProfile(user_id, token, callback) {
+        this.ajax({
+            method: 'DELETE',
+            url: this.url + '/users/' + user_id + '/profile',
+            headers: {
+                Authorization: 'Token token=' + token
+            },
+            dataType: 'json'
+
+        }, callback);
+
+    },
+
+
+
+
+
+
     //////////////////////////////////////////////////////////////////////////////////////////
 
-    //Authenticated api actions
-    listGames: function(token, callback) {
-        this.ajax({
-            method: 'GET',
-            url: this.url + '/games',
-            headers: {
-                Authorization: 'Token token=' + token
-            },
-            dataType: 'json'
-        }, callback);
-    },
 
-    createGame: function(token, callback) {
-        this.ajax({
-            method: 'POST',
-            url: this.url + '/games',
-            headers: {
-                Authorization: 'Token token=' + token
-            },
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({}),
-            dataType: 'json',
-        }, callback);
-    },
+     //Authenticated api actions
+  listGroceries: function (token, callback) {
+    this.ajax({
+      method: 'GET',
+      url: this.url + '/groceries',
+      headers: {
+        Authorization: 'Token token=' + token
+      },
+      dataType: 'json'
+    }, callback);
+  },
 
-    showGame: function(id, token, callback) {
-        this.ajax({
-            method: 'GET',
-            url: this.url + '/games/' + id,
-            headers: {
-                Authorization: 'Token token=' + token
-            },
-            dataType: 'json'
-        }, callback);
-    }
+  createGroceries: function (token, grocery, callback) {
+    this.ajax({
+      method: 'POST',
+      url: this.url + '/groceries',
+      headers: {
+        Authorization: 'Token token=' + token
+      },
+      contentType: 'application/json; charset=utf-8',
+      data: JSON.stringify(grocery),
+      dataType: 'json',
+    }, callback);
+  },
+
+  showGroceries: function (id, token, callback) {
+    this.ajax({
+      method: 'GET',
+      url: this.url + '/groceries/' + id,
+      headers: {
+        Authorization: 'Token token=' + token
+      },
+      dataType: 'json'
+    }, callback);
+  }
 };

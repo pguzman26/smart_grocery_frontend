@@ -2,6 +2,26 @@
 
 var token = null;
 
+var $;
+
+var console;
+
+var handleError = function handleError(error, data, optional_alert) {
+        if (error) {
+            console.error(error);
+            if (optional_alert) {
+                optional_alert();
+            }
+            throw error;
+        } else {
+            console.log(data);
+        }
+    };
+
+var cb = function(err, data){
+            handleError(err, data);
+};
+
 var smart_grocery = {
     url: 'http://localhost:3000',
 
@@ -39,7 +59,7 @@ var smart_grocery = {
         }, callback);
     },
 
-    logout: function logout(id, token, callback) {
+    logout: function logout(user_id, token, callback) {
         this.ajax({
             method: 'DELETE',
             url: this.url + '/logout/' + user_id,
@@ -112,39 +132,64 @@ var smart_grocery = {
     //////////////////////////////////////////////////////////////////////////////////////////
 
 
-     //Authenticated api actions
-  listGroceries: function (token, callback) {
-    this.ajax({
-      method: 'GET',
-      url: this.url + '/groceries',
-      headers: {
-        Authorization: 'Token token=' + token
-      },
-      dataType: 'json'
-    }, callback);
-  },
+    //Authenticated api actions
+    listGroceries: function(token, callback) {
+        this.ajax({
+            method: 'GET',
+            url: this.url + '/groceries/',
+            headers: {
+                Authorization: 'Token token=' + token
+            },
+            dataType: 'json'
+        }, callback);
+    },
 
-  createGroceries: function (token, grocery, callback) {
-    this.ajax({
-      method: 'POST',
-      url: this.url + '/groceries',
-      headers: {
-        Authorization: 'Token token=' + token
-      },
-      contentType: 'application/json; charset=utf-8',
-      data: JSON.stringify(grocery),
-      dataType: 'json',
-    }, callback);
-  },
+    updateGroceries: function(token, grocery, callback) {
+        this.ajax({
+            method: 'PATCH',
+            url: this.url + '/item',
+            headers: {
+                Authorization: 'Token token=' + token
+            },
+            contentType: 'application/json',
+            data: JSON.stringify(grocery),
+            dataType: 'json'
+        }, callback);
+    },
 
-  showGroceries: function (id, token, callback) {
-    this.ajax({
-      method: 'GET',
-      url: this.url + '/groceries/' + id,
-      headers: {
-        Authorization: 'Token token=' + token
-      },
-      dataType: 'json'
-    }, callback);
-  }
+    createGroceries: function(token, grocery, callback) {
+        this.ajax({
+            method: 'POST',
+            url: this.url + '/groceries/',
+            headers: {
+                Authorization: 'Token token=' + token
+            },
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(grocery),
+            dataType: 'json',
+        }, callback);
+    },
+
+    showGroceries: function(id, token, callback) {
+        this.ajax({
+            method: 'GET',
+            url: this.url + '/groceries/' + id,
+            headers: {
+                Authorization: 'Token token=' + token
+            },
+            dataType: 'json'
+        }, callback);
+    },
+
+    deleteGroceries: function(token, grocery, callback) {
+        this.ajax({
+            method: 'DESTROY',
+            url: this.url + '/groceries/',
+            headers: {
+                Authorization: 'Token token=' + token
+            },
+            data: JSON.stringify(grocery),
+            dataType: 'json'
+        }, callback);
+    }
 };

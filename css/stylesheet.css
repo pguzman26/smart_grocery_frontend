@@ -121,13 +121,10 @@ login form
 
 
 
-.grocery {
-background-color: #2D5348;
-min-width: 900px;
-}
+
 h1, h3, .edit, td {
-color: #ecf0f1;
-font-family: 'Permanent Marker', cursive;
+color: #29293A;
+font-family: 'Permanent Marker';
 }
 header {
 text-align: center;

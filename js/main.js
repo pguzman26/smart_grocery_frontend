@@ -2,11 +2,16 @@
 
 
 var id = 1; // unique id for list items
+var $;
+var data = {};
+var smart_grocery;
+var groceryApp = groceryApp || {};
 
 
 $(document).ready(function(e) {
     editButton();
     $('.grocery').hide();
+    $('#logout-button').hide();
 
 
 
@@ -103,12 +108,12 @@ $(document).ready(function(e) {
             if (err) {
                 console.log(err);
             } else {
-                token = data.user.token;
-                var user_id = data.user.id;
+                groceryApp.token = data.user.token;
+                groceryApp.user_id = data.user.id;
                 console.log(data);
                 $('.logInForm').hide();
                 $('#register_form').hide();
-                $('#logout').show();
+                $('#logout-button').show();
                 $(".grocery").show();
             }
 
@@ -116,88 +121,192 @@ $(document).ready(function(e) {
 
 
 
+        //});
+
+
+        /////////Log out
+
+
+        $('#logout-button').on('click', function(e) {
+            e.preventDefault();
+            var credentials = wrap('credentials', form2object(e.target));
+            smart_grocery.logout(groceryApp.user_id, groceryApp.token, function(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                console.log("Logged out");
+            }
+            });
+        });
+
+
+
+
+
+
+
+
+        // ////////////////Smart-Grocery/////////////////////
+
+
+
+
+        $("tbody").on("click", ".cross", function() {
+            $(this).closest("tr").remove();
+        });
+
+        $("button").on("click", getInput);
+
+        $("tbody").on("click", ".box", function() {
+            $(this).closest("tr").find("span").toggleClass("checked");
+        });
+
     });
 
 
 
-
-
-
-
-    // ////////////////Smart-Grocery/////////////////////
-
-
-
-
-    $("tbody").on("click", ".cross", function() {
-        $(this).closest("tr").remove();
+    // triggered on Enter
+    $(document).on("keydown", function(e) {
+        if (e.keyCode === 13) {
+            getInput();
+        }
     });
 
-    $("button").on("click", getInput);
 
-    $("tbody").on("click", ".box", function() {
-        $(this).closest("tr").find("span").toggleClass("checked");
+
+    // Toggle delete icon when edit button is clicked
+    function editButton() {
+        $(".edit").on("click", "span", function() {
+            $(".cross").toggle();
+        });
+    }
+
+
+    // Obtaining customer input and then calling addItem() with the input
+    function getInput() {
+        var custInput = $(".custinput");
+        var input = custInput.val();
+
+        if ((input !== "") && ($.trim(input) !== "")) {
+            addItem(input);
+            custInput.val("");
+        }
+
+    }
+
+
+
+
+    ////////////////////// adding item to the list increment id counter for unique id, will have to fix the code below in the future, but it is referencing <tr>,<td> in index.html////////////////////////
+
+    function addItem(message) {
+
+        //$(".cross").hide(); // hiding the delete icon
+
+        var addCallback = function() {
+            var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
+
+            var content = "<td class=\"content\"><span>" + message + "</span></td>";
+
+            var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
+
+            $("tbody").append("<tr>" + checkbox + content + delIcon + "</tr>");
+        };
+
+
+        var item = {
+
+            name: "name"
+
+
+        };
+
+        smart_grocery.createGroceries(token, {
+            grocery: item
+        }, addCallback);
+
+
+
+
+    }
+
+    $('#show-activity-list').on('click', function(e) {
+        e.preventDefault();
+        var item = {
+            name: "name"
+        };
+        smart_grocery.showGroceries(token, {
+            grocery: item
+        }, item);
+        // data.forEach(function(item) {
+        //     $('#activity-table tr:last').after(
+        //         '<tr data-id=' + item._id + '><td>' + item.name + '</td><td>' + item.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
+        // });
+
+
+
+        $('#update-activity-popup').modal('hide');
+        $('.modal-backdrop').remove();
+        $('#show-activity-list').hide();
     });
+
+$('#create-activity').on('click', function(e) {
+        e.preventDefault();
+        var credentials = form2object(this);
+        $('input:text').val('');
+        $('#add-new-activity-popup').hide();
+
+        bucketList_api.updateGroceries(credentials, function(err, data){
+          handleError(err,data);
+          $('#activity-table tr:last').after(
+            '<tr data-id=' + data._id + '><td>' + data.name +  '</td><td>' + data.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
+        $('#update-activity-popup').modal('hide');
+        $('.modal-backdrop').remove();
+        });
+    });
+
+$('#update-activity').on('submit', function(e) {
+        e.preventDefault();
+        var credentials = form2object(this);
+        $('input:text').val('');
+        console.log(credentials);
+        console.log(id);
+        bucketList_api.updateListItem(id, credentials, function(err, data){
+          handleError(err,data);
+          console.log('inside update AJAX');
+          $('#activity-table tr:last').after(
+            '<tr data-id=' + data._id + '><td>' + data.name +  '</td><td>' + data.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
+        });
+        $('#update-activity-popup').modal('hide');
+        $('.modal-backdrop').remove();
+    });
+
+    // function updateItem(message) {
+
+    //     //$(".cross").hide(); // hiding the delete icon
+
+    //     var addCallback = function() {
+    //         var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
+
+    //         var content = "<td class=\"content\"><span>" + message + "</span></td>";
+
+    //         var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
+
+    //         $("tbody").append("<tr>" + checkbox + content + delIcon + "</tr>");
+    //     };
+
+
+    //     var item = {
+
+    //         name: "name"
+
+
+    //     };
+    //     smart_grocery.updateGroceries(token, { grocery: item}, addCallback);
+
+
+
+
+    // }
 
 });
-
-
-
-// triggered on Enter
-$(document).on("keydown", function(e) {
-    if (e.keyCode === 13) {
-        getInput();
-    }
-});
-
-
-
-// Toggle delete icon when edit button is clicked
-function editButton() {
-    $(".edit").on("click", "span", function() {
-        $(".cross").toggle();
-    });
-}
-
-
-// Obtaining customer input and then calling addItem() with the input
-function getInput() {
-    var custInput = $(".custinput");
-    var input = custInput.val();
-
-    if ((input !== "") && ($.trim(input) !== "")) {
-        addItem(input);
-        custInput.val("");
-    }
-}
-
-
-////////////////////// adding item to the list increment id counter for unique id, will have to fix the code below in the future, but it is referencing <tr>,<td> in index.html////////////////////////
-
-function addItem(message) {
-
-    //$(".cross").hide(); // hiding the delete icon
-
-    var addCallback = function() {
-        var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
-
-        var content = "<td class=\"content\"><span>" + message + "</span></td>";
-
-        var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
-
-        $("tbody").append("<tr>" + checkbox + content + delIcon + "</tr>");
-    };
-
-
-    var item = {
-
-        name: "name"
-
-
-    };
-    smart_grocery.createGroceries(token, { grocery: item}, addCallback);
-
-
-
-
-}

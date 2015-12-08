@@ -80,17 +80,26 @@
             </div>
         </div>
     </div>
+    <!-- Log Out Button -->
+    <button id="logout-button" class="btn btn-warning btn-lg" type="button">Log Out</button>
     <!--                      shopping list                     -->
     <div class="grocery">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <h1>Shopping List</h1>
+                <h1>Smart Grocery</h1>
                 <div class="input">
-                    <h3>Enter Item:</h3>
                     <input type="text" class="custinput" id="item-input" placeholder="Enter shopping item..." autofocus>
                     <button type="submit" class="btn">add</button>
                 </div>
-                <div class="list">
+                <!-- Activity List View-->
+                <table style="width:75%" class="table table-hover" align="center" id="activity-table">
+                    <h1 id="activity-table-header">Grocery List</h1>
+                    <tr id="activity-table-labels">
+                        <th>List</th>
+                        <th></th>
+                    </tr>
+                </table>
+                <!-- <div class="list">
                     <h3>List:</h3>
                     <table class="items">
                         <thead>
@@ -101,10 +110,58 @@
                         <tbody>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
+
+
+    <!-- Update Existing Activity Modal-->
+    <div class="modal fade" id="update-activity-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog register" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Edit an Activity</h4>
+          </div>
+          <div class="modal-body">
+            <!-- Update Existing Activity Form-->
+            <form class="form-horizontal" id='update-activity' class='login_form'>
+              <div class="form-group">
+                <div class="row">
+                  <label for="inputEmail3" class="col-sm-3 control-label">Activity Name</label>
+                  <div class="col-sm-10 col-sm-offset-4">
+                    <input type="text" name='name' class="form-control" id='update-name' placeholder="Activity Name" required>
+                  </div>
+                </div>
+              </div>
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-3 control-label">City</label>
+                  <div class="col-sm-10 col-sm-offset-4">
+                    <input type="text" name='city' class="form-control" id='update-city'placeholder="City Name" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                      <label>
+                      </label>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-default submit">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Show Activity List Button -->
+    <button type="button" class="btn btn-primary" id="show-activity-list">View Your List</button>
     <!--                       Script Source files                                -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

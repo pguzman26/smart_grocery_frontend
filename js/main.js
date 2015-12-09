@@ -2,9 +2,7 @@
 
 
 var id = 1; // unique id for list items
-var $;
 var data = {};
-var smart_grocery;
 var groceryApp = groceryApp || {};
 
 
@@ -204,19 +202,19 @@ $(document).ready(function(e) {
         //$(".cross").hide(); // hiding the delete icon
 
         var addCallback = function() {
-            var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
+            // var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
 
-            var content = "<td class=\"content\"><span>" + message + "</span></td>";
+            // var content = "<td class=\"content\"><span>" + message + "</span></td>";
 
-            var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
+            // var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
 
-            $("tbody").append("<tr>" + checkbox + content + delIcon + "</tr>");
+            // $("tbody").append("<tr>" + checkbox + content + delIcon + "</tr>");
         };
 
 
         var item = {
 
-            name: "name"
+            name: message
 
 
         };
@@ -235,20 +233,45 @@ $(document).ready(function(e) {
         var item = {
             name: "name"
         };
-        smart_grocery.showGroceries(token, {
-            grocery: item
-        }, item);
-        // data.forEach(function(item) {
-        //     $('#activity-table tr:last').after(
-        //         '<tr data-id=' + item._id + '><td>' + item.name + '</td><td>' + item.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
-        // });
+        smart_grocery.showGroceries(groceryApp.token, function(err, data){
+            console.log('data is' + data);
+            var groceries = data.groceries;
+            var listHTML = "";
+            groceries.forEach(function(grocery){
+                listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td><button>Edit</button><button class='delete'>Delete</button></td></tr>";
+
+            });
+            $('#activity-table-labels').append(listHTML);
+
+
+        //data.forEach(function(item) {
+            // $('#activity-table tr:last').after(
+                // '<tr data-id=' + item._id + '><td>' + item.name + '</td><td>' + item.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
+        });
+$('#activity-table').on('click', function(e){
+        e.preventDefault();
+        var target = e.target;
+        var id = $(target).parent().parent().data('id');
+        // if($target.hasClass("delete")){
+        //     console.log("deleting ", id);
+            target.remove();
+
+            smart_grocery.deleteGroceries(groceryApp.token, id, function(err){
+                console.log(err);
+            });
+        // }else if($target.hasClass("edit")){
+        //     console.log("editing ", id);
+
+
+        // $('#update-activity-popup').modal('hide');
+        // $('.modal-backdrop').remove();
+        // $('#show-activity-list').hide();
+
+});
+});
 
 
 
-        $('#update-activity-popup').modal('hide');
-        $('.modal-backdrop').remove();
-        $('#show-activity-list').hide();
-    });
 
 $('#create-activity').on('click', function(e) {
         e.preventDefault();

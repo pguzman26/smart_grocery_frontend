@@ -138,7 +138,7 @@ var smart_grocery = {
             method: 'GET',
             url: this.url + '/groceries/',
             headers: {
-                Authorization: 'Token token=' + token
+                Authorization: 'Token token=' + groceryApp.token
             },
             dataType: 'json'
         }, callback);
@@ -149,7 +149,7 @@ var smart_grocery = {
             method: 'PATCH',
             url: this.url + '/item',
             headers: {
-                Authorization: 'Token token=' + token
+                Authorization: 'Token token=' + groceryApp.token
             },
             contentType: 'application/json',
             data: JSON.stringify(grocery),
@@ -162,7 +162,7 @@ var smart_grocery = {
             method: 'POST',
             url: this.url + '/groceries/',
             headers: {
-                Authorization: 'Token token=' + token
+                Authorization: 'Token token=' + groceryApp.token
             },
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(grocery),
@@ -170,26 +170,24 @@ var smart_grocery = {
         }, callback);
     },
 
-    showGroceries: function(id, token, callback) {
+    showGroceries: function(token, callback) {
         this.ajax({
             method: 'GET',
-            url: this.url + '/groceries/' + id,
+            url: this.url + '/groceries',
             headers: {
-                Authorization: 'Token token=' + token
+                Authorization: 'Token token=' + groceryApp.token
             },
             dataType: 'json'
         }, callback);
     },
 
-    deleteGroceries: function(token, grocery, callback) {
+    deleteGroceries: function(token, id, callback) {
         this.ajax({
-            method: 'DESTROY',
-            url: this.url + '/groceries/',
+            method: 'DELETE',
+            url: this.url + '/groceries/' + id,
             headers: {
-                Authorization: 'Token token=' + token
-            },
-            data: JSON.stringify(grocery),
-            dataType: 'json'
+                Authorization: 'Token token=' + groceryApp.token
+            }
         }, callback);
     }
 };

@@ -241,28 +241,18 @@ $(document).ready(function(e) {
                 listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td><button>Edit</button><button class='delete'>Delete</button></td></tr>";
 
             });
-            $('#activity-table-labels').append(listHTML);
+            $('#activity-table').append(listHTML);
 
 
         });
-$('#activity-table').on('click', function(e){
+$('#activity-table').on('click', "button.delete", function(e){
         e.preventDefault();
         var target = e.target;
         var id = $(target).parent().parent().data('id');
-        // if($target.hasClass("delete")){
-        //     console.log("deleting ", id);
-            target.remove();
-
-            smart_grocery.deleteGroceries(groceryApp.token, id, function(err){
-                console.log(err);
-            });
-        // }else if($target.hasClass("edit")){
-        //     console.log("editing ", id);
-
-
-        // $('#update-activity-popup').modal('hide');
-        // $('.modal-backdrop').remove();
-        // $('#show-activity-list').hide();
+        $(target).parent().parent().detach();
+        smart_grocery.deleteGroceries(groceryApp.token, id, function(err){
+            console.log(err);
+        });
 
 });
 });
@@ -271,10 +261,10 @@ $('#activity-table').on('click', function(e){
 
 
 
-$('#update-activity').on('submit', function(e) {
+$('#update-activity').on('click', function(e) {
         e.preventDefault();
-        var credentials = form2object(this);
-        $('input:text').val('');
+        var target = e.target;
+        var id = $(target).parent().parent().data('id');
         console.log(credentials);
         console.log(id);
         smart_grocery.updateGroceries(groceryApp.token, function(err, data){
@@ -286,6 +276,13 @@ $('#update-activity').on('submit', function(e) {
         $('#update-activity-popup').modal('hide');
         $('.modal-backdrop').remove();
     });
+
+
+
+// groceries.forEach(function(grocery){
+// listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td>
+// <button>   Edit</button><button class='delete'>Delete</button></td></tr>";
+
 
     // function updateItem(message) {
 

@@ -244,9 +244,6 @@ $(document).ready(function(e) {
             $('#activity-table-labels').append(listHTML);
 
 
-        //data.forEach(function(item) {
-            // $('#activity-table tr:last').after(
-                // '<tr data-id=' + item._id + '><td>' + item.name + '</td><td>' + item.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
         });
 $('#activity-table').on('click', function(e){
         e.preventDefault();
@@ -273,20 +270,6 @@ $('#activity-table').on('click', function(e){
 
 
 
-$('#create-activity').on('click', function(e) {
-        e.preventDefault();
-        var credentials = form2object(this);
-        $('input:text').val('');
-        $('#add-new-activity-popup').hide();
-
-        bucketList_api.updateGroceries(credentials, function(err, data){
-          handleError(err,data);
-          $('#activity-table tr:last').after(
-            '<tr data-id=' + data._id + '><td>' + data.name +  '</td><td>' + data.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
-        $('#update-activity-popup').modal('hide');
-        $('.modal-backdrop').remove();
-        });
-    });
 
 $('#update-activity').on('submit', function(e) {
         e.preventDefault();
@@ -294,7 +277,7 @@ $('#update-activity').on('submit', function(e) {
         $('input:text').val('');
         console.log(credentials);
         console.log(id);
-        bucketList_api.updateListItem(id, credentials, function(err, data){
+        smart_grocery.updateGroceries(groceryApp.token, function(err, data){
           handleError(err,data);
           console.log('inside update AJAX');
           $('#activity-table tr:last').after(

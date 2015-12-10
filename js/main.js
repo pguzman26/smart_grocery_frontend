@@ -117,49 +117,49 @@ $(document).ready(function(e) {
 
         });
 
+    });
 
 
-        //});
+    //});
 
 
-        /////////Log out
+    /////////Log out
 
 
-        $('#logout-button').on('click', function(e) {
-            e.preventDefault();
-            var credentials = wrap('credentials', form2object(e.target));
-            smart_grocery.logout(groceryApp.user_id, groceryApp.token, function(err, data) {
-                if (err) {
-                    console.log(err);
-                } else {
+    $('#logout-button').on('click', function(e) {
+        e.preventDefault();
+        var credentials = wrap('credentials', form2object(e.target));
+        smart_grocery.logout(groceryApp.user_id, groceryApp.token, function(err, data) {
+            if (err) {
+                console.log(err);
+            } else {
                 console.log("Logged out");
             }
-            });
         });
-
-
-
-
-
-
-
-
-        // ////////////////Smart-Grocery/////////////////////
-
-
-
-
-        $("tbody").on("click", ".cross", function() {
-            $(this).closest("tr").remove();
-        });
-
-        $("button").on("click", getInput);
-
-        $("tbody").on("click", ".box", function() {
-            $(this).closest("tr").find("span").toggleClass("checked");
-        });
-
     });
+
+
+
+
+
+
+
+
+    // ////////////////Smart-Grocery/////////////////////
+
+
+
+
+    $("tbody").on("click", ".cross", function() {
+        $(this).closest("tr").remove();
+    });
+
+    $("button").on("click", getInput);
+
+    $("tbody").on("click", ".box", function() {
+        $(this).closest("tr").find("span").toggleClass("checked");
+    });
+
 
 
 
@@ -195,7 +195,6 @@ $(document).ready(function(e) {
 
 
 
-    ////////////////////// adding item to the list increment id counter for unique id, will have to fix the code below in the future, but it is referencing <tr>,<td> in index.html////////////////////////
 
     function addItem(message) {
 
@@ -204,7 +203,7 @@ $(document).ready(function(e) {
         var addCallback = function() {
             // var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
 
-            // var content = "<td class=\"content\"><span>" + message + "</span></td>";
+             var content = "<td class=\"content\"><span>" + message + "</span></td>";
 
             // var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
 
@@ -213,75 +212,69 @@ $(document).ready(function(e) {
 
 
         var item = {
-
             name: message
-
-
         };
-
         smart_grocery.createGroceries(token, {
             grocery: item
         }, addCallback);
 
-
-
-
     }
 
+
+    // Show Grocery Item
     $('#show-activity-list').on('click', function(e) {
         e.preventDefault();
         var item = {
             name: "name"
         };
-        smart_grocery.showGroceries(groceryApp.token, function(err, data){
+        smart_grocery.showGroceries(groceryApp.token, function(err, data) {
             console.log('data is' + data);
             var groceries = data.groceries;
             var listHTML = "";
-            groceries.forEach(function(grocery){
+            groceries.forEach(function(grocery) {
                 listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td><button>Edit</button><button class='delete'>Delete</button></td></tr>";
 
             });
             $('#activity-table').append(listHTML);
-
-
         });
-$('#activity-table').on('click', "button.delete", function(e){
+
+
+    }); // end Show grocery Item
+
+    //Delete Grocery Item
+    $('#activity-table').on('click', "button.delete", function(e) {
         e.preventDefault();
         var target = e.target;
         var id = $(target).parent().parent().data('id');
         $(target).parent().parent().detach();
-        smart_grocery.deleteGroceries(groceryApp.token, id, function(err){
+        smart_grocery.deleteGroceries(groceryApp.token, id, function(err) {
             console.log(err);
         });
 
-});
-});
+    }); //End Delete grocery Item
 
-
-
-
-
-$('#update-activity').on('click', function(e) {
+//updates grocery items
+    $('#update-activity').on('click', function(e) {
         e.preventDefault();
         var target = e.target;
         var id = $(target).parent().parent().data('id');
         console.log(credentials);
         console.log(id);
-        smart_grocery.updateGroceries(groceryApp.token, function(err, data){
-          handleError(err,data);
-          console.log('inside update AJAX');
-          $('#activity-table tr:last').after(
-            '<tr data-id=' + data._id + '><td>' + data.name +  '</td><td>' + data.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
+        smart_grocery.updateGroceries(groceryApp.token, function(err, data) {
+            handleError(err, data);
+            console.log('inside update AJAX');
+            $('#activity-table tr:last').after(
+                '<tr data-id=' + data._id + '><td>' + data.name + '</td><td>' + data.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
         });
         $('#update-activity-popup').modal('hide');
         $('.modal-backdrop').remove();
     });
 
+//end updates grocery items
 
-
-// groceries.forEach(function(grocery){
-// listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td>
-// <button>   Edit</button><button class='delete'>Delete</button></td></tr>";
+    // groceries.forEach(function(grocery){
+    // listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td>
+    // <button>   Edit</button><button class='delete'>Delete</button></td></tr>";
 
 
     // function updateItem(message) {

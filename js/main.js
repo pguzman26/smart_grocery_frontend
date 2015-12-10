@@ -232,7 +232,8 @@ $(document).ready(function(e) {
             var groceries = data.groceries;
             var listHTML = "";
             groceries.forEach(function(grocery) {
-                listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td><button>Edit</button><button class='delete'>Delete</button></td></tr>";
+                listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" +
+                    "<td><button class='edit' >Edit</button><button class='delete'>Delete</button></td></tr>";
 
             });
             $('#activity-table').append(listHTML);
@@ -254,21 +255,34 @@ $(document).ready(function(e) {
     }); //End Delete grocery Item
 
 //updates grocery items
-    $('#update-activity').on('click', function(e) {
+    $('#activity-table').on('click', "button.edit", function(e) {
         e.preventDefault();
         var target = e.target;
         var id = $(target).parent().parent().data('id');
-        console.log(credentials);
         console.log(id);
-        smart_grocery.updateGroceries(groceryApp.token, function(err, data) {
-            handleError(err, data);
-            console.log('inside update AJAX');
-            $('#activity-table tr:last').after(
-                '<tr data-id=' + data._id + '><td>' + data.name + '</td><td>' + data.city + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
-        });
-        $('#update-activity-popup').modal('hide');
-        $('.modal-backdrop').remove();
+
+        $('#update-activity input').val('');
+        $('#update-activity form input[type=hidden]').val(id);
+        $('#update-activity-popup').show();
+        // $('.modal-backdrop').remove();
     });
+
+    $('#update-activity').on('submit', function(event) {
+        event.preventDefault();
+
+        smart_grocery.updateGroceries(groceryApp.token, wrap('grocery', form2object(event.target)), function(err, data) {
+
+
+                // id is in `data.grocery.id` or `data.id`
+
+                // select the row of the updated grocery
+                // using selector "#activity-table tr[data-id=" + <id> + "]"
+                // and change the name displayed
+        });
+
+        return false;
+    });
+
 
 //end updates grocery items
 

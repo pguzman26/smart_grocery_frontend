@@ -277,20 +277,18 @@ $(document).ready(function(e) {
 
         // $('#update-activity input').val('');
         var id = $('#update-activity input[type=hidden]').val();
+        var grocery = form2object(event.target);
         // $('#update-activity-popup').show();
-
-        smart_grocery.updateGroceries(groceryApp.token, id, wrap('grocery', form2object(event.target)), function(err, data) {
-            console.log(err, data);
-           // var groceries = data.groceries;
+        $('#update-activity-popup').hide();
+// wrap('grocery', form2object(grocery)
+        smart_grocery.updateGroceries(groceryApp.token, id, grocery, function(err, data) {
+            console.log(grocery);
             var listHTML = "";
             console.log(data);
-            data.forEach(function(data) {
-                listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" +
-                    "<td><button class='edit' >Edit</button><button class='delete'>Delete</button></td></tr>";
+            listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" +
+                "<td><button class='edit' >Edit</button><button class='delete'>Delete</button></td></tr>";
 
-            });
             $('#activity-table').append(listHTML);
-            $('#update-activity').hide();
         });
 
 

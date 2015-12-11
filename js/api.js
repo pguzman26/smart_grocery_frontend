@@ -144,10 +144,10 @@ var smart_grocery = {
         }, callback);
     },
 
-    updateGroceries: function(token, grocery, callback) {
+    updateGroceries: function(token, id, grocery, callback) {
         this.ajax({
             method: 'PATCH',
-            url: this.url + '/item',
+            url: this.url + '/groceries/' + id,
             headers: {
                 Authorization: 'Token token=' + groceryApp.token
             },

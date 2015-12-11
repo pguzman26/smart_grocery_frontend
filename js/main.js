@@ -1,7 +1,7 @@
 'use strict'
 
 
-var id = 1; // unique id for list items
+// var id = 1; // unique id for list items
 var data = {};
 var groceryApp = groceryApp || {};
 
@@ -203,7 +203,7 @@ $(document).ready(function(e) {
         var addCallback = function() {
             // var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
 
-             var content = "<td class=\"content\"><span>" + message + "</span></td>";
+            var content = "<td class=\"content\"><span>" + message + "</span></td>";
 
             // var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
 
@@ -214,9 +214,10 @@ $(document).ready(function(e) {
         var item = {
             name: message
         };
-        smart_grocery.createGroceries(token, {
-            grocery: item
-        }, addCallback);
+        smart_grocery
+            .createGroceries(token, {
+                grocery: item
+            }, addCallback);
 
     }
 
@@ -254,7 +255,7 @@ $(document).ready(function(e) {
 
     }); //End Delete grocery Item
 
-//updates grocery items
+    //updates grocery items
     $('#activity-table').on('click', "button.edit", function(e) {
         e.preventDefault();
         var target = e.target;
@@ -262,29 +263,50 @@ $(document).ready(function(e) {
         console.log(id);
 
         $('#update-activity input').val('');
-        $('#update-activity form input[type=hidden]').val(id);
+        $('#update-activity input[type=hidden]').val(id);
         $('#update-activity-popup').show();
         // $('.modal-backdrop').remove();
     });
 
     $('#update-activity').on('submit', function(event) {
         event.preventDefault();
+        // var target = e.target;
+        // var id = $(target).parent().data('id');
+        // console.log(id);
 
-        smart_grocery.updateGroceries(groceryApp.token, wrap('grocery', form2object(event.target)), function(err, data) {
+        // $('#update-activity input').val('');
+        var id = $('#update-activity input[type=hidden]').val();
+        // $('#update-activity-popup').show();
 
+        smart_grocery.updateGroceries(groceryApp.token, id, wrap('grocery', form2object(event.target)), function(err, data) {
+            console.log(err, data);
+           // var groceries = data.groceries;
+            var listHTML = "";
+            console.log(data);
+            debugger;
+            data.forEach(function(data) {
+                listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" +
+                    "<td><button class='edit' >Edit</button><button class='delete'>Delete</button></td></tr>";
 
-                // id is in `data.grocery.id` or `data.id`
-
-                // select the row of the updated grocery
-                // using selector "#activity-table tr[data-id=" + <id> + "]"
-                // and change the name displayed
+            });
+            $('#activity-table').append(listHTML);
         });
+
+
+        // $('#activity-table tr:last').after(
+        //     '<tr data-id=' + grocery.id + '><td>' + grocery.name + '</td><td>' + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
+        // id is in `data.grocery.id` or `data.id`
+
+        // select the row of the updated grocery
+        // using selector "#activity-table tr[data-id=" + <id> + "]"
+        // and change the name displayed
+
 
         return false;
     });
 
 
-//end updates grocery items
+    //end updates grocery items
 
     // groceries.forEach(function(grocery){
     // listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td>

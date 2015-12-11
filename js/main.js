@@ -224,6 +224,7 @@ $(document).ready(function(e) {
 
     // Show Grocery Item
     $('#show-activity-list').on('click', function(e) {
+        $('#activity-table').html('');
         e.preventDefault();
         var item = {
             name: "name"
@@ -283,13 +284,13 @@ $(document).ready(function(e) {
            // var groceries = data.groceries;
             var listHTML = "";
             console.log(data);
-            debugger;
             data.forEach(function(data) {
                 listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" +
                     "<td><button class='edit' >Edit</button><button class='delete'>Delete</button></td></tr>";
 
             });
             $('#activity-table').append(listHTML);
+            $('#update-activity').hide();
         });
 
 

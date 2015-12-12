@@ -271,14 +271,8 @@ $(document).ready(function(e) {
 
     $('#update-activity').on('submit', function(event) {
         event.preventDefault();
-        // var target = e.target;
-        // var id = $(target).parent().data('id');
-        // console.log(id);
-
-        // $('#update-activity input').val('');
         var id = $('#update-activity input[type=hidden]').val();
         var grocery = form2object(event.target);
-        // $('#update-activity-popup').show();
         $('#update-activity-popup').hide();
 // wrap('grocery', form2object(grocery)
         smart_grocery.updateGroceries(groceryApp.token, id, grocery, function(err, data) {
@@ -291,53 +285,9 @@ $(document).ready(function(e) {
             $('#activity-table').append(listHTML);
         });
 
-
-        // $('#activity-table tr:last').after(
-        //     '<tr data-id=' + grocery.id + '><td>' + grocery.name + '</td><td>' + '</td><td><button class="edit btn btn-primary" data-toggle="modal" data-target="#update-activity-popup">Edit</button></td><td><button class="delete btn btn-danger">Delete</button></td></tr>');
-        // id is in `data.grocery.id` or `data.id`
-
-        // select the row of the updated grocery
-        // using selector "#activity-table tr[data-id=" + <id> + "]"
-        // and change the name displayed
-
-
         return false;
     });
 
 
-    //end updates grocery items
-
-    // groceries.forEach(function(grocery){
-    // listHTML += "<tr data-id=\"" + grocery.id + "\"><td>" + grocery.name + "</td>" + "<td>
-    // <button>   Edit</button><button class='delete'>Delete</button></td></tr>";
-
-
-    // function updateItem(message) {
-
-    //     //$(".cross").hide(); // hiding the delete icon
-
-    //     var addCallback = function() {
-    //         var checkbox = "<td class=\"check\">" + "<input type=\"checkbox\" id=\"item" + id + "\" class=\"box\">" + "<label for=\"item" + id + "\" class=\"check-label\"></label></td>";
-
-    //         var content = "<td class=\"content\"><span>" + message + "</span></td>";
-
-    //         var delIcon = "<td><img src=\"img/cross.png\" alt=\"cross\" class=\"cross\"></td>";
-
-    //         $("tbody").append("<tr>" + checkbox + content + delIcon + "</tr>");
-    //     };
-
-
-    //     var item = {
-
-    //         name: "name"
-
-
-    //     };
-    //     smart_grocery.updateGroceries(token, { grocery: item}, addCallback);
-
-
-
-
-    // }
 
 });

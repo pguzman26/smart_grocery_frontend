@@ -23,7 +23,7 @@ var cb = function(err, data){
 };
 
 var smart_grocery = {
-    url: 'https://nameless-tundra-6319.herokuapp.com/',
+    url: 'https://secret-bayou-3767.herokuapp.com/',
 
     ajax: function(config, cb) {
         $.ajax(config).done(function(data, textStatus, jqxhr) {

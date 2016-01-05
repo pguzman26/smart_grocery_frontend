@@ -15,7 +15,7 @@ The backend was built using Ruby on Rails, I have set up the routes, controllers
 
 ## Link to deployed app
 
-- http://gmankd.github.io/smart_grocery_frontend
+- http://pguzman26.github.io/smart_grocery_frontend
 
 ## User Stories:
 
